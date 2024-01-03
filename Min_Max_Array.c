@@ -1,13 +1,20 @@
 #include <stdio.h>
 
 int main() {
-    int array[] = {42, 18, 56, 9, 27, 5, 74, 123, 890, 456};
-    int size = sizeof(array) / sizeof(array[0]);
+    const int arraySize = 10;
+    int array[arraySize];
+
+    // Input numbers from the user
+    printf("Enter %d numbers:\n", arraySize);
+    for (int i = 0; i < arraySize; i++) {
+        printf("Number %d: ", i + 1);
+        scanf("%d", &array[i]);
+    }
 
     int max = array[0];
     int min = array[0];
 
-    for (int i = 1; i < size; i++) {
+    for (int i = 1; i < arraySize; i++) {
         if (max < array[i]) {
             max = array[i];
         }
@@ -22,3 +29,4 @@ int main() {
 
     return 0;
 }
+
