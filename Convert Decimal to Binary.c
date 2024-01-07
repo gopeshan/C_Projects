@@ -9,12 +9,12 @@ void printBinary(int number) {
 
 int main() {
     int number;
+
     printf("Enter a number: ");
     scanf("%d", &number);
 
     printf("Binary representation: ");
     printBinary(number);
-
     printf("\n");
 
     return 0;
