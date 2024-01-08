@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 #define BOARD_SIZE 3
+#define MAX_MOVES (BOARD_SIZE * BOARD_SIZE)
 
 void print_board(char board[BOARD_SIZE][BOARD_SIZE])
 {
@@ -21,31 +22,23 @@ void print_board(char board[BOARD_SIZE][BOARD_SIZE])
 
 int check_win(char board[BOARD_SIZE][BOARD_SIZE], char symbol)
 {
-    // Check rows, columns, and diagonals for a win
+    // Check rows, columns, and diagonals
     for (int i = 0; i < BOARD_SIZE; i++)
     {
-        int win_row = 1, win_col = 1, win_diag1 = 1, win_diag2 = 1;
+        if (board[i][0] == symbol && board[i][1] == symbol && board[i][2] == symbol)
+            return 1; // Check rows
 
-        for (int j = 0; j < BOARD_SIZE; j++)
-        {
-            if (board[i][j] != symbol)
-                win_row = 0;
-
-            if (board[j][i] != symbol)
-                win_col = 0;
-
-            if (i == j && board[i][j] != symbol)
-                win_diag1 = 0;
-
-            if (i + j == BOARD_SIZE - 1 && board[i][j] != symbol)
-                win_diag2 = 0;
-        }
-
-        if (win_row || win_col || win_diag1 || win_diag2)
-            return 1;
+        if (board[0][i] == symbol && board[1][i] == symbol && board[2][i] == symbol)
+            return 1; // Check columns
     }
 
-    return 0;
+    if (board[0][0] == symbol && board[1][1] == symbol && board[2][2] == symbol)
+        return 1; // Check main diagonal
+
+    if (board[0][2] == symbol && board[1][1] == symbol && board[2][0] == symbol)
+        return 1; // Check anti-diagonal
+
+    return 0; // No win
 }
 
 int main()
@@ -69,9 +62,8 @@ int main()
     printf(" 7 | 8 | 9 \n");
 
     int player = 1;
-    int moves = 0;
-
-    while (1)
+    int moves;
+    for (moves = 0; moves < MAX_MOVES; moves++)
     {
         printf("Player %d's turn:\n", player);
 
@@ -82,10 +74,9 @@ int main()
             scanf("%d", &pos);
             row = (pos - 1) / BOARD_SIZE;
             col = (pos - 1) % BOARD_SIZE;
-        } while (pos < 1 || pos > BOARD_SIZE * BOARD_SIZE || board[row][col] != ' ');
+        } while (pos < 1 || pos > MAX_MOVES || board[row][col] != ' ');
 
         board[row][col] = (player == 1) ? 'X' : 'O';
-        moves++;
         print_board(board);
 
         if (check_win(board, (player == 1) ? 'X' : 'O'))
@@ -94,13 +85,12 @@ int main()
             break;
         }
 
-        if (moves == BOARD_SIZE * BOARD_SIZE)
-        {
-            printf("Tie game!\n");
-            break;
-        }
+        player = 3 - player; // Switch players (1 -> 2, 2 -> 1)
+    }
 
-        player = (player == 1) ? 2 : 1;
+    if (moves == MAX_MOVES)
+    {
+        printf("Tie game!\n");
     }
 
     return 0;
