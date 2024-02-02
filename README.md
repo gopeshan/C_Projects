@@ -1,5 +1,5 @@
 # C Projects
-This repository includes multiple projects, which are both personal and school.
+This repository includes multiple personal projects.
 
 Finished:
 
